@@ -31,7 +31,8 @@ MP3s are not in the image or the repo. They are served from `/srv/dj/mp3` on the
 
 ```bash
 ssh debian@$VPS_HOST 'sudo mkdir -p /srv/dj/mp3 && sudo chown debian /srv/dj/mp3'
-rsync -av --chmod=F644 mp3/ debian@$VPS_HOST:/srv/dj/mp3/
+.venv/bin/python djmat.py zip
+scp mp3/*.mp3 mp3/dj-set.zip debian@$VPS_HOST:/srv/dj/mp3/
 ```
 
 After the first run make the GHCR package public (Packages → dj → Package settings → Change visibility),

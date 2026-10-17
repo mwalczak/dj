@@ -27,7 +27,7 @@ spec:
               mountPath: /usr/share/nginx/html/mp3
               readOnly: true
       volumes:
-        # Upload songs here on the server: rsync -av mp3/ debian@HOST:/srv/dj/mp3/
+        # Upload songs here on the server: scp mp3/*.mp3 mp3/dj-set.zip debian@HOST:/srv/dj/mp3/
         - name: mp3
           hostPath:
             path: /srv/dj/mp3
