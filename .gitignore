@@ -5,3 +5,6 @@ models/
 .ruff_cache/
 __pycache__/
 public/mp3/
+tools/
+.cache/
+mix/

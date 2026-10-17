@@ -20,7 +20,12 @@ cd ..
 .venv/bin/python djmat.py undo              # restore original names
 .venv/bin/python djmat.py web               # -> public/index.html (commit it)
 .venv/bin/python djmat.py zip               # -> mp3/dj-set.zip ("Download all" button)
+.venv/bin/python djmat.py mix [--tracks 1-4] # -> mix/mix.mp3 + mix.cue + tracklist.txt ("Download mix" button)
 ```
+
+`mix` needs the Rubber Band CLI. Without root it can be unpacked locally into `tools/`
+(`apt-get download rubberband-cli librubberband2 ...` + `dpkg -x`, wrapper `tools/rubberband`);
+ffmpeg comes from the `imageio-ffmpeg` pip package. Extra pip deps: `scipy soundfile imageio-ffmpeg`.
 
 ## Deploy
 
@@ -33,6 +38,7 @@ MP3s are not in the image or the repo. They are served from `/srv/dj/mp3` on the
 ssh debian@$VPS_HOST 'sudo mkdir -p /srv/dj/mp3 && sudo chown debian /srv/dj/mp3'
 .venv/bin/python djmat.py zip
 scp mp3/*.mp3 mp3/dj-set.zip debian@$VPS_HOST:/srv/dj/mp3/
+scp mix/mix.mp3 debian@$VPS_HOST:/srv/dj/mp3/dj-mix.mp3
 ```
 
 After the first run make the GHCR package public (Packages → dj → Package settings → Change visibility),

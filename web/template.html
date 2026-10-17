@@ -79,6 +79,9 @@ h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
   background: var(--accent); color: #fff; font-weight: 600; white-space: nowrap;
 }
 .dl-all:hover { filter: brightness(1.08); }
+.dl-all[hidden] { display: none; }
+.dl-all.secondary { background: var(--surface-1); color: var(--text-primary); border: 1px solid var(--border); }
+.dl-all.secondary:hover { border-color: var(--accent); filter: none; }
 .dl-all svg { width: 16px; height: 16px; fill: currentColor; }
 .dl-all small { display: block; font-weight: 400; font-size: 12px; opacity: 0.85; }
 @media (max-width: 760px) { .dl-all { width: 100%; justify-content: center; } }
@@ -166,7 +169,11 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
         <button type="button" data-lang="pl" lang="pl">PL</button><button type="button" data-lang="en" lang="en">EN</button>
       </div>
       <div class="stats" id="stats"></div>
-      <a class="dl-all" id="dlAll" download>
+      <a class="dl-all" id="dlMix" download hidden>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 1h2v8l3-3 1.4 1.4L8 12.8 2.6 7.4 4 6l3 3zM2 13h12v2H2z"/></svg>
+        <span><span data-i18n="dlMix"></span> <small id="mixSize"></small></span>
+      </a>
+      <a class="dl-all secondary" id="dlAll" download>
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 1h2v8l3-3 1.4 1.4L8 12.8 2.6 7.4 4 6l3 3zM2 13h12v2H2z"/></svg>
         <span><span data-i18n="dlAll"></span> <small id="dlSize"></small></span>
       </a>
@@ -225,7 +232,8 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     pl: {
       title: "Tracklista DJ seta",
       sub: "Kolejność ułożona pod rosnące tempo i harmoniczne przejścia (Camelot).",
-      langLabel: "Język", dlAll: "Pobierz wszystko",
+      langLabel: "Język", dlAll: "Pobierz wszystkie utwory", dlMix: "Pobierz miks",
+      mixInfo: (len, mb) => `Ciągły miks · ${len} · MP3 · ${mb} MB`,
       chartTitle: "BPM w trakcie seta",
       chartSub: "Każda kropka to utwór w kolejności seta. Czerwone odcinki oznaczają konflikt tonacji między sąsiednimi utworami.",
       chartAria: "BPM według pozycji w secie",
@@ -242,7 +250,8 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     en: {
       title: "DJ Set Tracklist",
       sub: "Ordered for a rising tempo arc with harmonic (Camelot) transitions.",
-      langLabel: "Language", dlAll: "Download all",
+      langLabel: "Language", dlAll: "Download all tracks", dlMix: "Download mix",
+      mixInfo: (len, mb) => `Continuous mix · ${len} · MP3 · ${mb} MB`,
       chartTitle: "BPM through the set",
       chartSub: "Each dot is a track in set order. Red segments mark key clashes between neighbours.",
       chartAria: "BPM by set position",
@@ -286,6 +295,10 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     document.querySelectorAll("[data-i18n-aria]").forEach((e) => e.setAttribute("aria-label", L(e.dataset.i18nAria)));
     document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
     $("dlSize").textContent = `${T.length} ${L("tracks", T.length)} · ZIP · ${Math.round(D.totalBytes / 1e6)} MB`;
+    if (D.mix) {
+      const h = Math.floor(D.mix.duration / 3600), m = Math.round(D.mix.duration % 3600 / 60);
+      $("mixSize").textContent = L("mixInfo", `${h}h ${m}m`, Math.round(D.mix.bytes / 1e6));
+    }
     $("foot").textContent = L("footer", D.generated);
     renderStats();
     render();
@@ -323,6 +336,7 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
 
   // download-all zip
   $("dlAll").href = D.mp3Base + encodeURIComponent(D.zip);
+  if (D.mix) { $("dlMix").href = D.mp3Base + encodeURIComponent(D.mix.file); $("dlMix").hidden = false; }
 
   // genre filter
   [...new Set(T.map((t) => t.genre))].sort().forEach((g) => { const o = el("option", null, g); o.value = g; $("genre").append(o); });

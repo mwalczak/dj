@@ -7,6 +7,7 @@ Usage:
     python djmat.py undo               # restores original filenames
     python djmat.py web                # generates public/index.html
     python djmat.py zip                # bundles the set into mp3/dj-set.zip
+    python djmat.py mix [--tracks 1-4] # beat-matched mix -> mix/mix.mp3 (+ .cue, tracklist)
 """
 
 from __future__ import annotations
@@ -296,6 +297,12 @@ def cmd_web(args: argparse.Namespace) -> None:
         "tracks": rows, "mp3Base": args.mp3_base, "generated": date.today().isoformat(),
         "zip": ZIP_NAME, "totalBytes": sum(files[o].stat().st_size for o in order),
     }
+    mix = ROOT / "mix" / "mix.mp3"
+    if mix.exists():
+        import mutagen
+
+        data["mix"] = {"file": MIX_NAME, "bytes": mix.stat().st_size,
+                       "duration": round(mutagen.File(mix).info.length)}
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     html = (ROOT / "web" / "template.html").read_text().replace("/*__DATA__*/", payload)
     out = ROOT / "public" / "index.html"
@@ -307,6 +314,7 @@ def cmd_web(args: argparse.Namespace) -> None:
 # ---------------------------------------------------------------- zip
 
 ZIP_NAME = "dj-set.zip"
+MIX_NAME = "dj-mix.mp3"  # server name of mix/mix.mp3
 
 
 def cmd_zip(args: argparse.Namespace) -> None:
@@ -325,6 +333,22 @@ def cmd_zip(args: argparse.Namespace) -> None:
     print(f"Wrote {out.relative_to(ROOT)} ({out.stat().st_size / 1e6:.0f} MB, {len(order)} tracks)")
 
 
+# ---------------------------------------------------------------- mix
+
+
+def cmd_mix(args: argparse.Namespace) -> None:
+    from mixer import build_mix
+
+    tracks = json.loads(ANALYSIS.read_text())
+    args.quiet = True
+    order = cmd_sort(args)
+    if args.tracks:
+        a, _, b = args.tracks.partition("-")
+        order = order[int(a) - 1 : int(b or a)]
+    build_mix(order, current_files(), tracks, ROOT / args.out, bars=args.bars,
+              log=lambda m: print(m, file=sys.stderr))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -336,10 +360,14 @@ def main() -> None:
     r.add_argument("--apply", action="store_true")
     sub.add_parser("undo")
     sub.add_parser("zip")
+    m = sub.add_parser("mix")
+    m.add_argument("--tracks", help="set positions to mix, e.g. 1-4 (default: all)")
+    m.add_argument("--bars", type=int, default=16, help="blend length in bars")
+    m.add_argument("--out", default="mix", help="output directory")
     w = sub.add_parser("web")
     w.add_argument("--mp3-base", default="mp3/", help="URL prefix for mp3 links")
     args = ap.parse_args()
-    {"analyze": cmd_analyze, "sort": cmd_sort, "rename": cmd_rename, "undo": cmd_undo, "web": cmd_web, "zip": cmd_zip}[args.cmd](args)
+    {"analyze": cmd_analyze, "sort": cmd_sort, "rename": cmd_rename, "undo": cmd_undo, "web": cmd_web, "zip": cmd_zip, "mix": cmd_mix}[args.cmd](args)
 
 
 if __name__ == "__main__":
