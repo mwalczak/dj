@@ -272,6 +272,22 @@ def split_artist_title(orig: str) -> tuple[str, str]:
     return (parts[-2], parts[-1]) if len(parts) > 1 else ("", name)
 
 
+def mix_waveform(mp3: Path, bars: int = 1200) -> list[int]:
+    """RMS loudness of the mix in `bars` slices, scaled 0-100 (drawn as the player waveform)."""
+    import subprocess
+
+    import numpy as np
+
+    from mixer import ffmpeg
+
+    raw = subprocess.run([ffmpeg(), "-v", "error", "-i", str(mp3), "-ac", "1", "-ar", "4000", "-f", "f32le", "-"],
+                         check=True, capture_output=True).stdout
+    x = np.frombuffer(raw, dtype=np.float32)
+    n = len(x) // bars
+    rms = np.sqrt((x[: n * bars].reshape(bars, n) ** 2).mean(axis=1))
+    return [int(v) for v in np.round(rms / rms.max() * 100)]
+
+
 def cmd_web(args: argparse.Namespace) -> None:
     from datetime import date
 
@@ -301,8 +317,13 @@ def cmd_web(args: argparse.Namespace) -> None:
     if mix.exists():
         import mutagen
 
-        data["mix"] = {"file": MIX_NAME, "bytes": mix.stat().st_size,
-                       "duration": round(mutagen.File(mix).info.length)}
+        pos_of = {o: i for i, o in enumerate(order, 1)}
+        marks = json.loads((ROOT / "mix" / "mix.json").read_text())
+        data["mix"] = {
+            "file": MIX_NAME, "bytes": mix.stat().st_size, "duration": round(mutagen.File(mix).info.length, 1),
+            "peaks": mix_waveform(mix),
+            "marks": [{"start": m["start"], "pos": pos_of[m["file"]]} for m in marks if m["file"] in pos_of],
+        }
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     html = (ROOT / "web" / "template.html").read_text().replace("/*__DATA__*/", payload)
     out = ROOT / "public" / "index.html"

@@ -118,6 +118,41 @@ tr:last-child td { border-bottom: 0; }
 tbody tr { cursor: pointer; }
 tbody tr:hover { background: var(--surface-2); }
 tr.sel { background: var(--accent-soft) !important; }
+tr.now td.pos { color: var(--accent); font-weight: 700; }
+tr.now .title b::before { content: "▶ "; color: var(--accent); }
+.player { padding: 16px; margin-bottom: 16px; }
+.player[hidden] { display: none; }
+.p-top { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.p-play {
+  flex: none; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.p-play:hover { filter: brightness(1.08); }
+.p-play svg { width: 20px; height: 20px; fill: currentColor; }
+.p-now { flex: 1; min-width: 0; }
+.p-label { color: var(--text-muted); font-size: 12px; }
+.p-title { font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p-meta { color: var(--text-secondary); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p-side { display: flex; align-items: center; gap: 6px; flex: none; }
+.p-skip {
+  width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface-1);
+  color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+}
+.p-skip:hover { border-color: var(--accent); color: var(--accent); }
+.p-skip svg { width: 12px; height: 12px; fill: currentColor; }
+.p-time { color: var(--text-secondary); font-size: 12px; margin-left: 6px; min-width: 104px; text-align: right; }
+.p-wave { position: relative; height: 96px; cursor: pointer; touch-action: none; outline: none; }
+.p-wave:focus-visible { box-shadow: 0 0 0 2px var(--accent); border-radius: 4px; }
+.p-wave canvas { width: 100%; height: 100%; display: block; }
+.p-hover { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--text-primary); opacity: 0.5; display: none; pointer-events: none; }
+.p-wave .tip { top: 4px; white-space: nowrap; max-width: none; }
+@media (max-width: 760px) {
+  .p-top { flex-wrap: wrap; }
+  .p-side { width: 100%; justify-content: space-between; }
+  .p-time { margin-left: auto; }
+  .p-wave { height: 72px; }
+  .p-meta { white-space: normal; }
+}
 tr.match { background: var(--match-soft); }
 tr.dim { opacity: 0.4; }
 .num { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; }
@@ -169,16 +204,35 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
         <button type="button" data-lang="pl" lang="pl">PL</button><button type="button" data-lang="en" lang="en">EN</button>
       </div>
       <div class="stats" id="stats"></div>
-      <a class="dl-all" id="dlMix" download hidden>
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 1h2v8l3-3 1.4 1.4L8 12.8 2.6 7.4 4 6l3 3zM2 13h12v2H2z"/></svg>
-        <span><span data-i18n="dlMix"></span> <small id="mixSize"></small></span>
-      </a>
-      <a class="dl-all secondary" id="dlAll" download>
+      <a class="dl-all" id="dlAll" download>
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 1h2v8l3-3 1.4 1.4L8 12.8 2.6 7.4 4 6l3 3zM2 13h12v2H2z"/></svg>
         <span><span data-i18n="dlAll"></span> <small id="dlSize"></small></span>
       </a>
     </div>
   </header>
+
+  <section class="card player" id="player" hidden>
+    <div class="p-top">
+      <button class="p-play" id="pPlay" type="button">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path id="pIcon" d="M4 2.5v11l9-5.5z"/></svg>
+      </button>
+      <div class="p-now">
+        <div class="p-label" id="pLabel"></div>
+        <div class="p-title" id="pTitle"></div>
+        <div class="p-meta" id="pMeta"></div>
+      </div>
+      <div class="p-side">
+        <button class="p-skip" id="pPrev" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h2v12H3zM14 2.5v11L6 8z"/></svg></button>
+        <button class="p-skip" id="pNext" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11 2h2v12h-2zM2 2.5v11L10 8z"/></svg></button>
+        <span class="p-time num" id="pTime">0:00 / 0:00</span>
+      </div>
+    </div>
+    <div class="p-wave" id="pWave" role="slider" tabindex="0" aria-valuemin="0">
+      <canvas id="pCanvas"></canvas>
+      <div class="p-hover" id="pHover"></div>
+      <div class="tip" id="pTip"></div>
+    </div>
+  </section>
 
   <section class="card chart">
     <h2 data-i18n="chartTitle"></h2>
@@ -232,8 +286,10 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     pl: {
       title: "Tracklista DJ seta",
       sub: "Kolejność ułożona pod rosnące tempo i harmoniczne przejścia (Camelot).",
-      langLabel: "Język", dlAll: "Pobierz wszystkie utwory", dlMix: "Pobierz miks",
-      mixInfo: (len, mb) => `Ciągły miks · ${len} · MP3 · ${mb} MB`,
+      langLabel: "Język", dlAll: "Pobierz wszystkie utwory",
+      mixLabel: "Ciągły miks", nowPlaying: "Teraz gra", playMix: "Odtwórz miks", pauseMix: "Pauza",
+      prevTrack: "Poprzedni utwór", nextTrack: "Następny utwór", seek: "Pozycja w miksie",
+      mixIntro: (n, len) => `${n} ${plPlural(n, "utwór", "utwory", "utworów")} · ${len} · pionowe linie = przejścia`,
       chartTitle: "BPM w trakcie seta",
       chartSub: "Każda kropka to utwór w kolejności seta. Czerwone odcinki oznaczają konflikt tonacji między sąsiednimi utworami.",
       chartAria: "BPM według pozycji w secie",
@@ -250,8 +306,10 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     en: {
       title: "DJ Set Tracklist",
       sub: "Ordered for a rising tempo arc with harmonic (Camelot) transitions.",
-      langLabel: "Language", dlAll: "Download all tracks", dlMix: "Download mix",
-      mixInfo: (len, mb) => `Continuous mix · ${len} · MP3 · ${mb} MB`,
+      langLabel: "Language", dlAll: "Download all tracks",
+      mixLabel: "Continuous mix", nowPlaying: "Now playing", playMix: "Play mix", pauseMix: "Pause",
+      prevTrack: "Previous track", nextTrack: "Next track", seek: "Position in the mix",
+      mixIntro: (n, len) => `${n} track${n === 1 ? "" : "s"} · ${len} · vertical lines = blends`,
       chartTitle: "BPM through the set",
       chartSub: "Each dot is a track in set order. Red segments mark key clashes between neighbours.",
       chartAria: "BPM by set position",
@@ -295,10 +353,7 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     document.querySelectorAll("[data-i18n-aria]").forEach((e) => e.setAttribute("aria-label", L(e.dataset.i18nAria)));
     document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
     $("dlSize").textContent = `${T.length} ${L("tracks", T.length)} · ZIP · ${Math.round(D.totalBytes / 1e6)} MB`;
-    if (D.mix) {
-      const h = Math.floor(D.mix.duration / 3600), m = Math.round(D.mix.duration % 3600 / 60);
-      $("mixSize").textContent = L("mixInfo", `${h}h ${m}m`, Math.round(D.mix.bytes / 1e6));
-    }
+    if (D.mix) updatePlayer();
     $("foot").textContent = L("footer", D.generated);
     renderStats();
     render();
@@ -336,7 +391,6 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
 
   // download-all zip
   $("dlAll").href = D.mp3Base + encodeURIComponent(D.zip);
-  if (D.mix) { $("dlMix").href = D.mp3Base + encodeURIComponent(D.mix.file); $("dlMix").hidden = false; }
 
   // genre filter
   [...new Set(T.map((t) => t.genre))].sort().forEach((g) => { const o = el("option", null, g); o.value = g; $("genre").append(o); });
@@ -387,11 +441,129 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
 
   // audio preview (one shared player)
   const audio = new Audio(); audio.preload = "none";
+
+  // ---- mix player: waveform + blend markers
+  let mixAudio = null, nowPos = null;
+  const fmtTime = (s) => {
+    s = Math.max(0, Math.floor(s));
+    const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), ss = String(s % 60).padStart(2, "0");
+    return h ? `${h}:${String(m).padStart(2, "0")}:${ss}` : `${m}:${ss}`;
+  };
+  const markAt = (sec) => { let m = D.mix.marks[0]; for (const x of D.mix.marks) if (x.start <= sec) m = x; return m; };
+  const trackAt = (sec) => T.find((t) => t.pos === markAt(sec).pos);
+  function drawWave(hoverX = null) {
+    const c = $("pCanvas"), dpr = window.devicePixelRatio || 1, W = c.clientWidth, H = c.clientHeight;
+    if (!W) return;
+    c.width = W * dpr; c.height = H * dpr;
+    const g = c.getContext("2d"); g.scale(dpr, dpr);
+    const css = getComputedStyle(document.documentElement), v = (n) => css.getPropertyValue(n).trim();
+    const step = 3, n = Math.floor(W / step), P = D.mix.peaks, dur = D.mix.duration;
+    const played = mixAudio ? mixAudio.currentTime / dur : 0, base = Math.round(H * 0.7);
+    for (let i = 0; i < n; i++) {
+      const a = Math.floor(i * P.length / n), b = Math.max(a + 1, Math.floor((i + 1) * P.length / n));
+      const amp = Math.max(...P.slice(a, b)) / 100, x = i * step, frac = (i + 0.5) / n;
+      const on = frac <= played, hov = hoverX != null && x <= hoverX && !on;
+      g.fillStyle = on ? v("--accent") : hov ? v("--text-secondary") : v("--text-muted");
+      g.globalAlpha = on ? 1 : hov ? 0.7 : 0.45;
+      const h = Math.max(1, amp * (base - 4));
+      g.fillRect(x, base - h, step - 1, h);
+      g.globalAlpha *= 0.45;
+      g.fillRect(x, base + 1, step - 1, h * 0.42);
+    }
+    g.globalAlpha = 1;
+    D.mix.marks.slice(1).forEach((m) => {   // blend lines
+      const x = Math.round(m.start / dur * W) + 0.5;
+      g.fillStyle = v("--text-primary"); g.globalAlpha = 0.55;
+      g.fillRect(x, 0, 1, H);
+      g.globalAlpha = 1;
+      if (W < 600) return;  // dots crowd on phones: lines only
+      g.beginPath(); g.arc(x, base, 3, 0, Math.PI * 2);
+      g.fillStyle = v("--surface-1"); g.fill(); g.lineWidth = 1.5; g.strokeStyle = v("--text-primary"); g.stroke();
+    });
+  }
+  function updatePlayer() {
+    const cur = mixAudio ? mixAudio.currentTime : 0, dur = D.mix.duration, t = trackAt(cur);
+    const playing = mixAudio && !mixAudio.paused;
+    $("pIcon").setAttribute("d", playing ? "M4 2h3v12H4zM9 2h3v12H9z" : "M4 2.5v11l9-5.5z");
+    $("pPlay").setAttribute("aria-label", L(playing ? "pauseMix" : "playMix"));
+    $("pPrev").setAttribute("aria-label", L("prevTrack")); $("pPrev").title = L("prevTrack");
+    $("pNext").setAttribute("aria-label", L("nextTrack")); $("pNext").title = L("nextTrack");
+    $("pWave").setAttribute("aria-label", L("seek"));
+    $("pWave").setAttribute("aria-valuemax", String(Math.round(dur)));
+    $("pWave").setAttribute("aria-valuenow", String(Math.round(cur)));
+    $("pWave").setAttribute("aria-valuetext", `${fmtTime(cur)} · ${t.title}`);
+    $("pTime").textContent = `${fmtTime(cur)} / ${fmtTime(dur)}`;
+    if (!mixAudio) {
+      $("pLabel").textContent = L("mixLabel");
+      $("pTitle").textContent = L("title");
+      const h = Math.floor(dur / 3600), m = Math.round(dur % 3600 / 60);
+      $("pMeta").textContent = L("mixIntro", D.mix.marks.length, `${h}h ${m}m`);
+    } else {
+      $("pLabel").textContent = `${L("nowPlaying")} · #${String(t.pos).padStart(2, "0")}`;
+      $("pTitle").textContent = t.title;
+      $("pMeta").textContent = `${t.artist ? t.artist + " · " : ""}${t.bpm.toFixed(0)} BPM · ${t.camelot}`;
+    }
+    drawWave();
+  }
+  function ensureMix() {
+    if (mixAudio) return mixAudio;
+    mixAudio = new Audio(D.mp3Base + encodeURIComponent(D.mix.file)); mixAudio.preload = "metadata";
+    mixAudio.addEventListener("timeupdate", () => {
+      const p = markAt(mixAudio.currentTime).pos;
+      if (p !== nowPos) { nowPos = p; render(); }
+      updatePlayer();
+    });
+    ["play", "pause", "ended"].forEach((e) => mixAudio.addEventListener(e, () => { updatePlayer(); render(); }));
+    return mixAudio;
+  }
+  function seekMix(sec, play = true) {
+    const a = ensureMix();
+    a.currentTime = Math.min(Math.max(0, sec), D.mix.duration - 0.5);
+    if (play) { if (!audio.paused) audio.pause(); a.play().catch(() => {}); }
+    updatePlayer();
+  }
+  if (D.mix) {
+    $("player").hidden = false;
+    $("pPlay").onclick = () => {
+      const a = ensureMix();
+      if (a.paused) { if (!audio.paused) audio.pause(); a.play().catch(() => {}); } else a.pause();
+    };
+    const cur = () => (mixAudio ? mixAudio.currentTime : 0);
+    $("pPrev").onclick = () => {   // within 3 s of a blend start -> go to the previous one
+      const prev = D.mix.marks.filter((m) => m.start < cur() - 3).pop();
+      seekMix(prev ? prev.start : 0);
+    };
+    $("pNext").onclick = () => { const n = D.mix.marks.find((m) => m.start > cur() + 0.5); if (n) seekMix(n.start); };
+    const wave = $("pWave"), tip = $("pTip"), hl = $("pHover");
+    const secAt = (e) => { const r = wave.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * D.mix.duration; };
+    wave.addEventListener("pointermove", (e) => {
+      const r = wave.getBoundingClientRect(), x = e.clientX - r.left, sec = secAt(e), t = trackAt(sec);
+      hl.style.display = "block"; hl.style.left = `${x}px`;
+      tip.textContent = "";
+      tip.append(el("b", null, fmtTime(sec)), el("div", null, `#${t.pos} ${t.title}`), el("div", "muted", `${t.bpm.toFixed(0)} BPM · ${t.camelot}`));
+      tip.style.display = "block";
+      tip.style.left = "0px";
+      const w = tip.offsetWidth;
+      const left = x + 12 + w > r.width ? x - 12 - w : x + 12;
+      tip.style.left = `${Math.max(0, Math.min(left, r.width - w))}px`;
+      drawWave(x);
+    });
+    wave.addEventListener("pointerleave", () => { hl.style.display = "none"; tip.style.display = "none"; drawWave(); });
+    wave.addEventListener("click", (e) => seekMix(secAt(e)));
+    wave.addEventListener("keydown", (e) => {
+      const d = { ArrowRight: 10, ArrowLeft: -10, PageUp: 60, PageDown: -60 }[e.key];
+      if (d) { e.preventDefault(); seekMix(cur() + d, !(mixAudio && mixAudio.paused)); }
+      if (e.key === " ") { e.preventDefault(); $("pPlay").click(); }
+    });
+    new ResizeObserver(() => drawWave()).observe(wave);
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => drawWave());
+  }
   let playingPos = null;
   const ICON_PLAY = '<svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>';
   const ICON_PAUSE = '<svg viewBox="0 0 16 16"><path d="M4 2h3v12H4zM9 2h3v12H9z"/></svg>';
   const ICON_DL = '<svg viewBox="0 0 16 16"><path d="M7 1h2v8l3-3 1.4 1.4L8 12.8 2.6 7.4 4 6l3 3zM2 13h12v2H2z"/></svg>';
   function togglePlay(t) {
+    if (mixAudio && !mixAudio.paused) mixAudio.pause();
     if (playingPos === t.pos && !audio.paused) { audio.pause(); }
     else { if (playingPos !== t.pos) audio.src = url(t.file); playingPos = t.pos; audio.play().catch(() => {}); }
     render();
@@ -422,6 +594,7 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     for (const t of rows) {
       const tr = el("tr");
       if (sel) tr.className = t === sel ? "sel" : mixesWith(sel, t) ? "match" : "dim";
+      if (nowPos === t.pos && mixAudio && !mixAudio.paused) tr.classList.add("now");
       tr.onclick = (e) => { if (!e.target.closest(".actions")) select(t.pos); };
 
       tr.append(el("td", "pos num", String(t.pos).padStart(2, "0")));
