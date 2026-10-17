@@ -19,6 +19,7 @@ cd ..
 .venv/bin/python djmat.py rename --apply    # "01 - 120 BPM - 5A - Deep House - <original>.mp3"
 .venv/bin/python djmat.py undo              # restore original names
 .venv/bin/python djmat.py web               # -> public/index.html (commit it)
+.venv/bin/python djmat.py zip               # -> mp3/dj-set.zip ("Download all" button)
 ```
 
 ## Deploy

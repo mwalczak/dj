@@ -6,6 +6,7 @@ Usage:
     python djmat.py rename [--apply]   # dry-run by default; renames in set order
     python djmat.py undo               # restores original filenames
     python djmat.py web                # generates public/index.html
+    python djmat.py zip                # bundles the set into mp3/dj-set.zip
 """
 
 from __future__ import annotations
@@ -291,13 +292,37 @@ def cmd_web(args: argparse.Namespace) -> None:
             "energy": round((t["energy"] - lo) / (hi - lo), 3) if hi > lo else 0.5,
             "duration": t["duration"],
         })
-    data = {"tracks": rows, "mp3Base": args.mp3_base, "generated": date.today().isoformat()}
+    data = {
+        "tracks": rows, "mp3Base": args.mp3_base, "generated": date.today().isoformat(),
+        "zip": ZIP_NAME, "totalBytes": sum(files[o].stat().st_size for o in order),
+    }
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     html = (ROOT / "web" / "template.html").read_text().replace("/*__DATA__*/", payload)
     out = ROOT / "public" / "index.html"
     out.parent.mkdir(exist_ok=True)
     out.write_text(html)
     print(f"Wrote {out.relative_to(ROOT)} ({len(rows)} tracks, mp3 base '{args.mp3_base}')")
+
+
+# ---------------------------------------------------------------- zip
+
+ZIP_NAME = "dj-set.zip"
+
+
+def cmd_zip(args: argparse.Namespace) -> None:
+    """Bundle the set into mp3/dj-set.zip (stored, not deflated: mp3 doesn't compress)."""
+    import zipfile
+
+    args.quiet = True
+    order = cmd_sort(args)
+    files = current_files()
+    out = MP3_DIR / ZIP_NAME
+    tmp = out.with_suffix(".zip.part")
+    with zipfile.ZipFile(tmp, "w", compression=zipfile.ZIP_STORED) as z:
+        for o in order:
+            z.write(files[o], f"DJ Set/{files[o].name}")
+    tmp.replace(out)
+    print(f"Wrote {out.relative_to(ROOT)} ({out.stat().st_size / 1e6:.0f} MB, {len(order)} tracks)")
 
 
 def main() -> None:
@@ -310,10 +335,11 @@ def main() -> None:
     r = sub.add_parser("rename")
     r.add_argument("--apply", action="store_true")
     sub.add_parser("undo")
+    sub.add_parser("zip")
     w = sub.add_parser("web")
     w.add_argument("--mp3-base", default="mp3/", help="URL prefix for mp3 links")
     args = ap.parse_args()
-    {"analyze": cmd_analyze, "sort": cmd_sort, "rename": cmd_rename, "undo": cmd_undo, "web": cmd_web}[args.cmd](args)
+    {"analyze": cmd_analyze, "sort": cmd_sort, "rename": cmd_rename, "undo": cmd_undo, "web": cmd_web, "zip": cmd_zip}[args.cmd](args)
 
 
 if __name__ == "__main__":

@@ -70,6 +70,15 @@ h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
 .stat { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; min-width: 96px; }
 .stat b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
 .stat span { color: var(--text-muted); font-size: 12px; }
+.head-right { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+.dl-all {
+  display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 10px; text-decoration: none;
+  background: var(--accent); color: #fff; font-weight: 600; white-space: nowrap;
+}
+.dl-all:hover { filter: brightness(1.08); }
+.dl-all svg { width: 16px; height: 16px; fill: currentColor; }
+.dl-all small { display: block; font-weight: 400; font-size: 12px; opacity: 0.85; }
+@media (max-width: 760px) { .dl-all { width: 100%; justify-content: center; } }
 .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; }
 .chart { padding: 16px 16px 8px; margin-bottom: 16px; position: relative; }
 .chart h2 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
@@ -149,7 +158,13 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
       <h1>DJ Set Tracklist</h1>
       <div class="sub">Ordered for a rising tempo arc with harmonic (Camelot) transitions.</div>
     </div>
-    <div class="stats" id="stats"></div>
+    <div class="head-right">
+      <div class="stats" id="stats"></div>
+      <a class="dl-all" id="dlAll" download>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 1h2v8l3-3 1.4 1.4L8 12.8 2.6 7.4 4 6l3 3zM2 13h12v2H2z"/></svg>
+        <span>Download all <small id="dlSize"></small></span>
+      </a>
+    </div>
   </header>
 
   <section class="card chart">
@@ -221,6 +236,10 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
    [`${T.length - 1 - clashes}/${T.length - 1}`, "harmonic mixes"]].forEach(([v, l]) => {
     const s = el("div", "stat"); s.append(el("b", null, String(v)), el("span", null, l)); $("stats").append(s);
   });
+
+  // download-all zip
+  $("dlAll").href = D.mp3Base + encodeURIComponent(D.zip);
+  $("dlSize").textContent = `${T.length} tracks · ZIP · ${Math.round(D.totalBytes / 1e6)} MB`;
 
   // genre filter
   [...new Set(T.map((t) => t.genre))].sort().forEach((g) => { const o = el("option", null, g); o.value = g; $("genre").append(o); });
