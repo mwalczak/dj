@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DJ Set Tracklist</title>
+<title>Tracklista DJ seta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -70,6 +70,9 @@ h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
 .stat { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; min-width: 96px; }
 .stat b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
 .stat span { color: var(--text-muted); font-size: 12px; }
+.lang { display: inline-flex; align-self: center; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface-1); }
+.lang button { font: 600 12px Inter, sans-serif; letter-spacing: 0.04em; padding: 8px 10px; border: 0; background: none; color: var(--text-muted); cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--accent); color: #fff; }
 .head-right { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
 .dl-all {
   display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 10px; text-decoration: none;
@@ -155,48 +158,51 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
 <div class="wrap">
   <header>
     <div>
-      <h1>DJ Set Tracklist</h1>
-      <div class="sub">Ordered for a rising tempo arc with harmonic (Camelot) transitions.</div>
+      <h1 data-i18n="title">Tracklista DJ seta</h1>
+      <div class="sub" data-i18n="sub"></div>
     </div>
     <div class="head-right">
+      <div class="lang" role="group" data-i18n-aria="langLabel">
+        <button type="button" data-lang="pl" lang="pl">PL</button><button type="button" data-lang="en" lang="en">EN</button>
+      </div>
       <div class="stats" id="stats"></div>
       <a class="dl-all" id="dlAll" download>
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 1h2v8l3-3 1.4 1.4L8 12.8 2.6 7.4 4 6l3 3zM2 13h12v2H2z"/></svg>
-        <span>Download all <small id="dlSize"></small></span>
+        <span><span data-i18n="dlAll"></span> <small id="dlSize"></small></span>
       </a>
     </div>
   </header>
 
   <section class="card chart">
-    <h2>BPM through the set</h2>
-    <p>Each dot is a track in set order. Red segments mark key clashes between neighbours.</p>
-    <svg id="arc" role="img" aria-label="BPM by set position"></svg>
+    <h2 data-i18n="chartTitle"></h2>
+    <p data-i18n="chartSub"></p>
+    <svg id="arc" role="img" data-i18n-aria="chartAria"></svg>
     <div class="tip" id="tip"></div>
   </section>
 
   <div class="controls">
-    <input id="q" type="search" placeholder="Search artist, title, genre, key…" aria-label="Search">
-    <select id="genre" aria-label="Filter by genre"><option value="">All genres</option></select>
-    <select id="bpm" aria-label="Filter by BPM">
-      <option value="">All BPM</option>
+    <input id="q" type="search" data-i18n-ph="search" data-i18n-aria="search">
+    <select id="genre" data-i18n-aria="genreAria"><option value="" data-i18n="allGenres"></option></select>
+    <select id="bpm" data-i18n-aria="bpmAria">
+      <option value="" data-i18n="allBpm"></option>
       <option value="0-124">≤ 124</option>
       <option value="124-132">124–132</option>
       <option value="132-142">132–142</option>
       <option value="142-999">142+</option>
     </select>
   </div>
-  <p class="hint" id="hint">Click a track to highlight what mixes with it (compatible key, BPM within ±6%).</p>
+  <p class="hint" id="hint"></p>
 
   <div class="card">
     <table>
       <thead><tr>
         <th data-k="pos" class="pos">#</th>
-        <th data-k="title">Track</th>
+        <th data-k="title" data-i18n="thTrack"></th>
         <th data-k="bpm">BPM</th>
-        <th data-k="camelot">Key</th>
-        <th data-k="genre">Genre</th>
-        <th data-k="energy">Energy</th>
-        <th data-k="duration">Length</th>
+        <th data-k="camelot" data-i18n="thKey"></th>
+        <th data-k="genre" data-i18n="thGenre"></th>
+        <th data-k="energy" data-i18n="thEnergy"></th>
+        <th data-k="duration" data-i18n="thLength"></th>
         <th></th>
       </tr></thead>
       <tbody id="rows"></tbody>
@@ -215,6 +221,81 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
   const fmtLen = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
   const url = (f) => D.mp3Base + encodeURIComponent(f);
 
+  const I18N = {
+    pl: {
+      title: "Tracklista DJ seta",
+      sub: "Kolejność ułożona pod rosnące tempo i harmoniczne przejścia (Camelot).",
+      langLabel: "Język", dlAll: "Pobierz wszystko",
+      chartTitle: "BPM w trakcie seta",
+      chartSub: "Każda kropka to utwór w kolejności seta. Czerwone odcinki oznaczają konflikt tonacji między sąsiednimi utworami.",
+      chartAria: "BPM według pozycji w secie",
+      search: "Szukaj: wykonawca, tytuł, gatunek, tonacja…", genreAria: "Filtruj po gatunku", bpmAria: "Filtruj po BPM",
+      allGenres: "Wszystkie gatunki", allBpm: "Każde BPM",
+      thTrack: "Utwór", thKey: "Tonacja", thGenre: "Gatunek", thEnergy: "Energia", thLength: "Czas",
+      tracks: (n) => plPlural(n, "utwór", "utwory", "utworów"), total: "łącznie", bpmRange: "zakres BPM", harmonic: "harmoniczne przejścia",
+      hint: "Kliknij utwór, aby podświetlić utwory, które się z nim miksują (zgodna tonacja, BPM ±6%).",
+      matches: (n, title, cam, bpm) => `${n} ${plPlural(n, "utwór pasuje", "utwory pasują", "utworów pasuje")} do „${title}” (${cam}, ${bpm} BPM). `,
+      clear: "Wyczyść", clash: "konflikt tonacji", none: "Brak pasujących utworów.",
+      play: "Odtwórz", download: "Pobierz", downloadMp3: "Pobierz mp3", energy: "Energia",
+      footer: (d) => `Analiza: Essentia (BPM, tonacja z profilem EDM, gatunek Discogs-EffNet). Wygenerowano ${d}.`,
+    },
+    en: {
+      title: "DJ Set Tracklist",
+      sub: "Ordered for a rising tempo arc with harmonic (Camelot) transitions.",
+      langLabel: "Language", dlAll: "Download all",
+      chartTitle: "BPM through the set",
+      chartSub: "Each dot is a track in set order. Red segments mark key clashes between neighbours.",
+      chartAria: "BPM by set position",
+      search: "Search artist, title, genre, key…", genreAria: "Filter by genre", bpmAria: "Filter by BPM",
+      allGenres: "All genres", allBpm: "All BPM",
+      thTrack: "Track", thKey: "Key", thGenre: "Genre", thEnergy: "Energy", thLength: "Length",
+      tracks: (n) => (n === 1 ? "track" : "tracks"), total: "total", bpmRange: "BPM range", harmonic: "harmonic mixes",
+      hint: "Click a track to highlight what mixes with it (compatible key, BPM within ±6%).",
+      matches: (n, title, cam, bpm) => `${n} track${n === 1 ? "" : "s"} mix with “${title}” (${cam}, ${bpm} BPM). `,
+      clear: "Clear", clash: "key clash", none: "No tracks match.",
+      play: "Play", download: "Download", downloadMp3: "Download mp3", energy: "Energy",
+      footer: (d) => `Analysis: Essentia (BPM, key with EDM profile, Discogs-EffNet genre). Generated ${d}.`,
+    },
+  };
+  function plPlural(n, one, few, many) {
+    if (n === 1) return one;
+    const d = n % 10, h = n % 100;
+    return d >= 2 && d <= 4 && (h < 12 || h > 14) ? few : many;
+  }
+  // Polish key names: C# minor -> cis-moll, Bb major -> B-dur, B major -> H-dur
+  const PL_NOTE = { C: "C", "C#": "Cis", Db: "Des", D: "D", "D#": "Dis", Eb: "Es", E: "E", F: "F", "F#": "Fis", Gb: "Ges",
+    G: "G", "G#": "Gis", Ab: "As", A: "A", "A#": "Ais", Bb: "B", B: "H" };
+  const keyName = (k) => {
+    if (lang !== "pl") return k;
+    const [note, scale] = k.split(" "), n = PL_NOTE[note] || note;
+    return scale === "minor" ? `${n.toLowerCase()}-moll` : `${n}-dur`;
+  };
+
+  let lang = "pl";
+  try {
+    const q = new URLSearchParams(location.search).get("lang");
+    lang = I18N[q] ? q : (I18N[localStorage.getItem("lang")] ? localStorage.getItem("lang") : "pl");
+  } catch { /* storage unavailable */ }
+  const L = (k, ...a) => { const v = I18N[lang][k]; return typeof v === "function" ? v(...a) : v; };
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.title = L("title");
+    document.querySelectorAll("[data-i18n]").forEach((e) => (e.textContent = L(e.dataset.i18n)));
+    document.querySelectorAll("[data-i18n-ph]").forEach((e) => (e.placeholder = L(e.dataset.i18nPh)));
+    document.querySelectorAll("[data-i18n-aria]").forEach((e) => e.setAttribute("aria-label", L(e.dataset.i18nAria)));
+    document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    $("dlSize").textContent = `${T.length} ${L("tracks", T.length)} · ZIP · ${Math.round(D.totalBytes / 1e6)} MB`;
+    $("foot").textContent = L("footer", D.generated);
+    renderStats();
+    render();
+  }
+  document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => {
+    lang = b.dataset.lang;
+    try { localStorage.setItem("lang", lang); } catch { /* ignore */ }
+    applyLang();
+  }));
+
   const camelotOk = (a, b) => {
     const na = parseInt(a), nb = parseInt(b), la = a.slice(-1), lb = b.slice(-1);
     const d = ((nb - na) % 12 + 12) % 12;
@@ -231,15 +312,17 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
   const total = T.reduce((s, t) => s + t.duration, 0);
   const bpms = T.map((t) => t.bpm);
   const clashes = T.filter((t, i) => i && keyClash(T[i - 1].camelot, t.camelot)).length;
-  [[T.length, "tracks"], [`${Math.floor(total / 3600)}h ${Math.round(total % 3600 / 60)}m`, "total"],
-   [`${Math.round(Math.min(...bpms))}–${Math.round(Math.max(...bpms))}`, "BPM range"],
-   [`${T.length - 1 - clashes}/${T.length - 1}`, "harmonic mixes"]].forEach(([v, l]) => {
-    const s = el("div", "stat"); s.append(el("b", null, String(v)), el("span", null, l)); $("stats").append(s);
-  });
+  function renderStats() {
+    $("stats").textContent = "";
+    [[T.length, L("tracks", T.length)], [`${Math.floor(total / 3600)}h ${Math.round(total % 3600 / 60)}m`, L("total")],
+     [`${Math.round(Math.min(...bpms))}–${Math.round(Math.max(...bpms))}`, L("bpmRange")],
+     [`${T.length - 1 - clashes}/${T.length - 1}`, L("harmonic")]].forEach(([v, l]) => {
+      const s = el("div", "stat"); s.append(el("b", null, String(v)), el("span", null, l)); $("stats").append(s);
+    });
+  }
 
   // download-all zip
   $("dlAll").href = D.mp3Base + encodeURIComponent(D.zip);
-  $("dlSize").textContent = `${T.length} tracks · ZIP · ${Math.round(D.totalBytes / 1e6)} MB`;
 
   // genre filter
   [...new Set(T.map((t) => t.genre))].sort().forEach((g) => { const o = el("option", null, g); o.value = g; $("genre").append(o); });
@@ -316,12 +399,12 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     const hint = $("hint"); hint.textContent = "";
     if (sel) {
       const n = T.filter((t) => t !== sel && mixesWith(sel, t)).length;
-      hint.append(`${n} track${n === 1 ? "" : "s"} mix with “${sel.title}” (${sel.camelot}, ${Math.round(sel.bpm)} BPM). `);
-      const c = el("button", null, "Clear"); c.onclick = () => select(selected); hint.append(c);
-    } else hint.textContent = "Click a track to highlight what mixes with it (compatible key, BPM within ±6%).";
+      hint.append(L("matches", n, sel.title, sel.camelot, Math.round(sel.bpm)));
+      const c = el("button", null, L("clear")); c.onclick = () => select(selected); hint.append(c);
+    } else hint.textContent = L("hint");
 
     const body = $("rows"); body.textContent = "";
-    if (!rows.length) { const tr = el("tr"); const td = el("td", "empty", "No tracks match."); td.colSpan = 8; tr.append(td); body.append(tr); return; }
+    if (!rows.length) { const tr = el("tr"); const td = el("td", "empty", L("none")); td.colSpan = 8; tr.append(td); body.append(tr); return; }
     for (const t of rows) {
       const tr = el("tr");
       if (sel) tr.className = t === sel ? "sel" : mixesWith(sel, t) ? "match" : "dim";
@@ -331,13 +414,13 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
       const ti = el("td", "title"); ti.append(el("b", null, t.title), el("span", null, t.artist));
       if (sortK === "pos" && t.pos > 1 && !g && !q && !$("bpm").value) {
         const prev = T[t.pos - 2], ok = !keyClash(prev.camelot, t.camelot), d = (t.bpm - prev.bpm) / prev.bpm * 100;
-        ti.append(el("div", `trans${ok ? "" : " bad"}`, `${d >= 0 ? "+" : ""}${d.toFixed(1)}% · ${prev.camelot} → ${t.camelot}${ok ? "" : " key clash"}`));
+        ti.append(el("div", `trans${ok ? "" : " bad"}`, `${d >= 0 ? "+" : ""}${d.toFixed(1)}% · ${prev.camelot} → ${t.camelot}${ok ? "" : ` ${L("clash")}`}`));
       }
       tr.append(ti);
       tr.append(el("td", "num c-bpm", t.bpm.toFixed(1)));
-      const k = el("td", "c-key"); const kb = el("span", "key num", t.camelot); kb.append(el("small", null, t.key)); k.append(kb); tr.append(k);
+      const k = el("td", "c-key"); const kb = el("span", "key num", t.camelot); kb.append(el("small", null, keyName(t.key))); k.append(kb); tr.append(k);
       const ge = el("td", "genre c-genre"); ge.append(el("b", null, t.genre), el("span", null, t.genres.slice(1).join(", "))); tr.append(ge);
-      const en = el("td", "c-energy"); const mt = el("div", "meter"); mt.title = `Energy ${Math.round(t.energy * 100)}%`;
+      const en = el("td", "c-energy"); const mt = el("div", "meter"); mt.title = `${L("energy")} ${Math.round(t.energy * 100)}%`;
       const bar = el("i"); bar.style.width = `${Math.round(t.energy * 100)}%`; mt.append(bar); en.append(mt); tr.append(en);
       tr.append(el("td", "num c-len", fmtLen(t.duration)));
       const meta = el("td", "c-meta num"); meta.append(el("span", null, `${t.bpm.toFixed(0)} BPM`), el("span", "key", t.camelot), el("span", null, t.genre)); tr.append(meta);
@@ -345,9 +428,9 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
       const act = el("td", "actions");
       const play = el("button", `btn${playingPos === t.pos && !audio.paused ? " playing" : ""}`);
       play.innerHTML = playingPos === t.pos && !audio.paused ? ICON_PAUSE : ICON_PLAY;
-      play.setAttribute("aria-label", `Play ${t.title}`); play.onclick = () => togglePlay(t);
+      play.setAttribute("aria-label", `${L("play")} ${t.title}`); play.onclick = () => togglePlay(t);
       const dl = el("a", "btn"); dl.href = url(t.file); dl.download = t.file; dl.innerHTML = ICON_DL;
-      dl.setAttribute("aria-label", `Download ${t.title}`); dl.title = "Download mp3";
+      dl.setAttribute("aria-label", `${L("download")} ${t.title}`); dl.title = L("downloadMp3");
       act.append(play, document.createTextNode(" "), dl); tr.append(act);
       body.append(tr);
     }
@@ -356,8 +439,7 @@ footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
     sortDir = sortK === th.dataset.k ? -sortDir : 1; sortK = th.dataset.k; render();
   }));
   ["q", "genre", "bpm"].forEach((id) => $(id).addEventListener("input", render));
-  $("foot").textContent = `Analysis: Essentia (BPM, key with EDM profile, Discogs-EffNet genre). Generated ${D.generated}.`;
-  render();
+  applyLang();
 })();
 </script>
 </body>
