@@ -1,0 +1,7 @@
+mp3/
+models/
+.venv/
+.idea/
+.ruff_cache/
+__pycache__/
+public/mp3/

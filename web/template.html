@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DJ Set Tracklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f4f2;
+  --surface-1: #fcfcfb;
+  --surface-2: #efefec;
+  --border: #e2e1dc;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #77766f;
+  --accent: #2a78d6;
+  --accent-soft: #2a78d61f;
+  --grid: #e6e5e0;
+  --match: #1baf7a;
+  --match-soft: #1baf7a1f;
+  --clash: #e34948;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121211;
+    --surface-1: #1a1a19;
+    --surface-2: #242422;
+    --border: #2e2e2b;
+    --text-primary: #f0efec;
+    --text-secondary: #c3c2b7;
+    --text-muted: #8f8e86;
+    --accent: #3987e5;
+    --accent-soft: #3987e526;
+    --grid: #2a2a28;
+    --match: #199e70;
+    --match-soft: #199e7026;
+    --clash: #e66767;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121211;
+  --surface-1: #1a1a19;
+  --surface-2: #242422;
+  --border: #2e2e2b;
+  --text-primary: #f0efec;
+  --text-secondary: #c3c2b7;
+  --text-muted: #8f8e86;
+  --accent: #3987e5;
+  --accent-soft: #3987e526;
+  --grid: #2a2a28;
+  --match: #199e70;
+  --match-soft: #199e7026;
+  --clash: #e66767;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text-primary);
+  font: 14px/1.45 Inter, system-ui, sans-serif;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding: 32px 16px 64px; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
+.sub { color: var(--text-secondary); margin-top: 4px; }
+.stats { display: flex; gap: 8px; flex-wrap: wrap; }
+.stat { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; min-width: 96px; }
+.stat b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--text-muted); font-size: 12px; }
+.card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; }
+.chart { padding: 16px 16px 8px; margin-bottom: 16px; position: relative; }
+.chart h2 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+.chart p { margin: 0 0 8px; color: var(--text-muted); font-size: 12px; }
+#arc { width: 100%; height: 200px; display: block; }
+#arc text { fill: var(--text-muted); font: 11px Inter, sans-serif; }
+.tip {
+  position: absolute; pointer-events: none; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 16px #0003; display: none; max-width: 280px;
+}
+.tip b { font-size: 14px; }
+.tip .muted { color: var(--text-secondary); }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; align-items: center; }
+.controls input, .controls select, .controls button {
+  font: inherit; color: var(--text-primary); background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 10px;
+}
+.controls input { flex: 1 1 220px; min-width: 0; }
+.controls button { cursor: pointer; }
+.hint { color: var(--text-muted); font-size: 12px; margin: 0 0 8px; min-height: 18px; }
+.hint button { font: inherit; background: none; border: 0; color: var(--accent); cursor: pointer; padding: 0; }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);
+  font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none;
+}
+th[aria-sort="ascending"]::after { content: " ↑"; }
+th[aria-sort="descending"]::after { content: " ↓"; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--surface-2); }
+tr.sel { background: var(--accent-soft) !important; }
+tr.match { background: var(--match-soft); }
+tr.dim { opacity: 0.4; }
+.num { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; }
+.pos { color: var(--text-muted); width: 36px; }
+.title b { display: block; font-weight: 600; }
+.title span { color: var(--text-secondary); font-size: 13px; }
+.key { display: inline-block; min-width: 40px; white-space: nowrap; text-align: center; border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; font-weight: 600; }
+.key small { display: block; font-weight: 400; color: var(--text-muted); font-size: 11px; font-family: Inter, sans-serif; }
+.genre b { font-weight: 500; }
+.genre span { display: block; color: var(--text-muted); font-size: 12px; }
+.meter { width: 64px; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+.actions { white-space: nowrap; text-align: right; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary); cursor: pointer; text-decoration: none;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.playing { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn svg { width: 14px; height: 14px; fill: currentColor; }
+.trans { font-size: 11px; color: var(--text-muted); }
+.trans.bad { color: var(--clash); }
+.empty { padding: 32px; text-align: center; color: var(--text-muted); }
+footer { margin-top: 24px; color: var(--text-muted); font-size: 12px; }
+@media (max-width: 760px) {
+  thead { display: none; }
+  table, tbody, tr, td { display: block; }
+  tr { display: grid !important; grid-template-columns: 28px 1fr auto; gap: 4px 10px; padding: 12px; border-bottom: 1px solid var(--border); }
+  td { padding: 0; border: 0; }
+  td.pos { grid-row: 1 / span 3; }
+  td.title { grid-column: 2; }
+  td.actions { grid-column: 3; grid-row: 1 / span 3; align-self: center; }
+  td.c-bpm, td.c-key, td.c-genre, td.c-energy, td.c-len { grid-column: 2; display: inline-block; }
+  td.c-meta { grid-column: 2; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; }
+  .key small, .genre span, .c-energy, .c-len, .c-bpm, .c-key, .c-genre { display: none !important; }
+}
+@media (min-width: 761px) { td.c-meta { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>DJ Set Tracklist</h1>
+      <div class="sub">Ordered for a rising tempo arc with harmonic (Camelot) transitions.</div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <section class="card chart">
+    <h2>BPM through the set</h2>
+    <p>Each dot is a track in set order. Red segments mark key clashes between neighbours.</p>
+    <svg id="arc" role="img" aria-label="BPM by set position"></svg>
+    <div class="tip" id="tip"></div>
+  </section>
+
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search artist, title, genre, key…" aria-label="Search">
+    <select id="genre" aria-label="Filter by genre"><option value="">All genres</option></select>
+    <select id="bpm" aria-label="Filter by BPM">
+      <option value="">All BPM</option>
+      <option value="0-124">≤ 124</option>
+      <option value="124-132">124–132</option>
+      <option value="132-142">132–142</option>
+      <option value="142-999">142+</option>
+    </select>
+  </div>
+  <p class="hint" id="hint">Click a track to highlight what mixes with it (compatible key, BPM within ±6%).</p>
+
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th data-k="pos" class="pos">#</th>
+        <th data-k="title">Track</th>
+        <th data-k="bpm">BPM</th>
+        <th data-k="camelot">Key</th>
+        <th data-k="genre">Genre</th>
+        <th data-k="energy">Energy</th>
+        <th data-k="duration">Length</th>
+        <th></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <footer id="foot"></footer>
+</div>
+
+<script id="data" type="application/json">/*__DATA__*/</script>
+<script>
+(() => {
+  const D = JSON.parse(document.getElementById("data").textContent);
+  const T = D.tracks;
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const fmtLen = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+  const url = (f) => D.mp3Base + encodeURIComponent(f);
+
+  const camelotOk = (a, b) => {
+    const na = parseInt(a), nb = parseInt(b), la = a.slice(-1), lb = b.slice(-1);
+    const d = ((nb - na) % 12 + 12) % 12;
+    return la === lb ? [0, 1, 11].includes(d) : d === 0;
+  };
+  // same rule as djmat.py key_cost(): +2 / +7 on the same letter are accepted energy-boost moves
+  const keyClash = (a, b) => {
+    const d = ((parseInt(b) - parseInt(a)) % 12 + 12) % 12;
+    return !camelotOk(a, b) && !(a.slice(-1) === b.slice(-1) && [2, 7].includes(d));
+  };
+  const mixesWith = (a, b) => camelotOk(a.camelot, b.camelot) && Math.abs(b.bpm - a.bpm) / a.bpm <= 0.06;
+
+  // stats
+  const total = T.reduce((s, t) => s + t.duration, 0);
+  const bpms = T.map((t) => t.bpm);
+  const clashes = T.filter((t, i) => i && keyClash(T[i - 1].camelot, t.camelot)).length;
+  [[T.length, "tracks"], [`${Math.floor(total / 3600)}h ${Math.round(total % 3600 / 60)}m`, "total"],
+   [`${Math.round(Math.min(...bpms))}–${Math.round(Math.max(...bpms))}`, "BPM range"],
+   [`${T.length - 1 - clashes}/${T.length - 1}`, "harmonic mixes"]].forEach(([v, l]) => {
+    const s = el("div", "stat"); s.append(el("b", null, String(v)), el("span", null, l)); $("stats").append(s);
+  });
+
+  // genre filter
+  [...new Set(T.map((t) => t.genre))].sort().forEach((g) => { const o = el("option", null, g); o.value = g; $("genre").append(o); });
+
+  // BPM arc chart
+  const svg = $("arc"), tip = $("tip"), NS = "http://www.w3.org/2000/svg";
+  const mk = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+  function drawArc() {
+    svg.textContent = "";
+    const W = svg.clientWidth, H = svg.clientHeight, m = { l: 34, r: 10, t: 10, b: 22 };
+    const lo = Math.floor(Math.min(...bpms) / 10) * 10, hi = Math.ceil(Math.max(...bpms) / 10) * 10;
+    const x = (i) => m.l + (i / (T.length - 1)) * (W - m.l - m.r);
+    const y = (b) => m.t + (1 - (b - lo) / (hi - lo)) * (H - m.t - m.b);
+    const css = getComputedStyle(document.documentElement);
+    for (let b = lo; b <= hi; b += 10) {
+      svg.append(mk("line", { x1: m.l, x2: W - m.r, y1: y(b), y2: y(b), stroke: css.getPropertyValue("--grid"), "stroke-width": 1 }));
+      const t = mk("text", { x: m.l - 6, y: y(b) + 4, "text-anchor": "end" }); t.textContent = b; svg.append(t);
+    }
+    [1, Math.ceil(T.length / 2), T.length].forEach((p) => {
+      const t = mk("text", { x: x(p - 1), y: H - 6, "text-anchor": "middle" }); t.textContent = `#${p}`; svg.append(t);
+    });
+    T.forEach((t, i) => {
+      if (!i) return;
+      const ok = !keyClash(T[i - 1].camelot, t.camelot);
+      svg.append(mk("line", { x1: x(i - 1), y1: y(T[i - 1].bpm), x2: x(i), y2: y(t.bpm),
+        stroke: css.getPropertyValue(ok ? "--accent" : "--clash"), "stroke-width": 2, "stroke-linecap": "round" }));
+    });
+    T.forEach((t, i) => {
+      const g = mk("g", { tabindex: 0 });
+      g.append(mk("circle", { cx: x(i), cy: y(t.bpm), r: 4, fill: css.getPropertyValue("--accent"),
+        stroke: css.getPropertyValue("--surface-1"), "stroke-width": 2 }));
+      g.append(mk("circle", { cx: x(i), cy: y(t.bpm), r: 12, fill: "transparent" }));
+      const show = () => {
+        tip.textContent = "";
+        tip.append(el("b", null, `${t.bpm.toFixed(1)} BPM · ${t.camelot}`), el("div", null, `#${t.pos} ${t.title}`), el("div", "muted", t.artist));
+        tip.style.display = "block";
+        const px = x(i) + 16, flip = px + tip.offsetWidth > svg.clientWidth;
+        tip.style.left = `${flip ? x(i) - tip.offsetWidth : px}px`;
+        tip.style.top = `${y(t.bpm) + 20}px`;
+      };
+      g.addEventListener("pointerenter", show); g.addEventListener("focus", show);
+      g.addEventListener("pointerleave", () => (tip.style.display = "none")); g.addEventListener("blur", () => (tip.style.display = "none"));
+      g.addEventListener("click", () => select(t.pos));
+      svg.append(g);
+    });
+  }
+  new ResizeObserver(drawArc).observe(svg);
+
+  // audio preview (one shared player)
+  const audio = new Audio(); audio.preload = "none";
+  let playingPos = null;
+  const ICON_PLAY = '<svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>';
+  const ICON_PAUSE = '<svg viewBox="0 0 16 16"><path d="M4 2h3v12H4zM9 2h3v12H9z"/></svg>';
+  const ICON_DL = '<svg viewBox="0 0 16 16"><path d="M7 1h2v8l3-3 1.4 1.4L8 12.8 2.6 7.4 4 6l3 3zM2 13h12v2H2z"/></svg>';
+  function togglePlay(t) {
+    if (playingPos === t.pos && !audio.paused) { audio.pause(); }
+    else { if (playingPos !== t.pos) audio.src = url(t.file); playingPos = t.pos; audio.play().catch(() => {}); }
+    render();
+  }
+  audio.addEventListener("ended", () => { const next = T.find((t) => t.pos === playingPos + 1); next ? togglePlay(next) : render(); });
+  audio.addEventListener("pause", render);
+
+  // table
+  let sortK = "pos", sortDir = 1, selected = null;
+  function select(pos) { selected = selected === pos ? null : pos; render(); }
+  function render() {
+    const q = $("q").value.trim().toLowerCase(), g = $("genre").value, [blo, bhi] = ($("bpm").value || "0-999").split("-").map(Number);
+    const sel = T.find((t) => t.pos === selected);
+    let rows = T.filter((t) => (!g || t.genre === g) && t.bpm > blo && t.bpm <= bhi &&
+      (!q || `${t.artist} ${t.title} ${t.genres.join(" ")} ${t.camelot} ${t.key}`.toLowerCase().includes(q)));
+    rows = rows.slice().sort((a, b) => (a[sortK] > b[sortK] ? 1 : a[sortK] < b[sortK] ? -1 : 0) * sortDir);
+    document.querySelectorAll("th[data-k]").forEach((th) => th.setAttribute("aria-sort", th.dataset.k === sortK ? (sortDir > 0 ? "ascending" : "descending") : "none"));
+
+    const hint = $("hint"); hint.textContent = "";
+    if (sel) {
+      const n = T.filter((t) => t !== sel && mixesWith(sel, t)).length;
+      hint.append(`${n} track${n === 1 ? "" : "s"} mix with “${sel.title}” (${sel.camelot}, ${Math.round(sel.bpm)} BPM). `);
+      const c = el("button", null, "Clear"); c.onclick = () => select(selected); hint.append(c);
+    } else hint.textContent = "Click a track to highlight what mixes with it (compatible key, BPM within ±6%).";
+
+    const body = $("rows"); body.textContent = "";
+    if (!rows.length) { const tr = el("tr"); const td = el("td", "empty", "No tracks match."); td.colSpan = 8; tr.append(td); body.append(tr); return; }
+    for (const t of rows) {
+      const tr = el("tr");
+      if (sel) tr.className = t === sel ? "sel" : mixesWith(sel, t) ? "match" : "dim";
+      tr.onclick = (e) => { if (!e.target.closest(".actions")) select(t.pos); };
+
+      tr.append(el("td", "pos num", String(t.pos).padStart(2, "0")));
+      const ti = el("td", "title"); ti.append(el("b", null, t.title), el("span", null, t.artist));
+      if (sortK === "pos" && t.pos > 1 && !g && !q && !$("bpm").value) {
+        const prev = T[t.pos - 2], ok = !keyClash(prev.camelot, t.camelot), d = (t.bpm - prev.bpm) / prev.bpm * 100;
+        ti.append(el("div", `trans${ok ? "" : " bad"}`, `${d >= 0 ? "+" : ""}${d.toFixed(1)}% · ${prev.camelot} → ${t.camelot}${ok ? "" : " key clash"}`));
+      }
+      tr.append(ti);
+      tr.append(el("td", "num c-bpm", t.bpm.toFixed(1)));
+      const k = el("td", "c-key"); const kb = el("span", "key num", t.camelot); kb.append(el("small", null, t.key)); k.append(kb); tr.append(k);
+      const ge = el("td", "genre c-genre"); ge.append(el("b", null, t.genre), el("span", null, t.genres.slice(1).join(", "))); tr.append(ge);
+      const en = el("td", "c-energy"); const mt = el("div", "meter"); mt.title = `Energy ${Math.round(t.energy * 100)}%`;
+      const bar = el("i"); bar.style.width = `${Math.round(t.energy * 100)}%`; mt.append(bar); en.append(mt); tr.append(en);
+      tr.append(el("td", "num c-len", fmtLen(t.duration)));
+      const meta = el("td", "c-meta num"); meta.append(el("span", null, `${t.bpm.toFixed(0)} BPM`), el("span", "key", t.camelot), el("span", null, t.genre)); tr.append(meta);
+
+      const act = el("td", "actions");
+      const play = el("button", `btn${playingPos === t.pos && !audio.paused ? " playing" : ""}`);
+      play.innerHTML = playingPos === t.pos && !audio.paused ? ICON_PAUSE : ICON_PLAY;
+      play.setAttribute("aria-label", `Play ${t.title}`); play.onclick = () => togglePlay(t);
+      const dl = el("a", "btn"); dl.href = url(t.file); dl.download = t.file; dl.innerHTML = ICON_DL;
+      dl.setAttribute("aria-label", `Download ${t.title}`); dl.title = "Download mp3";
+      act.append(play, document.createTextNode(" "), dl); tr.append(act);
+      body.append(tr);
+    }
+  }
+  document.querySelectorAll("th[data-k]").forEach((th) => th.addEventListener("click", () => {
+    sortDir = sortK === th.dataset.k ? -sortDir : 1; sortK = th.dataset.k; render();
+  }));
+  ["q", "genre", "bpm"].forEach((id) => $(id).addEventListener("input", render));
+  $("foot").textContent = `Analysis: Essentia (BPM, key with EDM profile, Discogs-EffNet genre). Generated ${D.generated}.`;
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+*
+!public/
+!nginx.conf
+public/mp3/

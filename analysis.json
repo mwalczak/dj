@@ -1,0 +1,886 @@
+{
+  "AL001 - Mind Against - Gravity.mp3": {
+    "bpm_raw": 122.94,
+    "bpm": 122.9,
+    "bpm_conf": 1.88,
+    "key": "F minor",
+    "camelot": "4A",
+    "key_strength": 0.9,
+    "lufs": -10.8,
+    "energy": 0.3481,
+    "genre": "Deep Techno",
+    "genres_top3": [
+      [
+        "Deep Techno",
+        0.528
+      ],
+      [
+        "Techno",
+        0.494
+      ],
+      [
+        "Dub Techno",
+        0.156
+      ]
+    ],
+    "duration": 449.2
+  },
+  "ATB - Ecstasy (Morten Granau Remix).mp3": {
+    "bpm_raw": 136.97,
+    "bpm": 137.0,
+    "bpm_conf": 1.95,
+    "key": "Ab minor",
+    "camelot": "1A",
+    "key_strength": 0.79,
+    "lufs": -9.0,
+    "energy": 0.3917,
+    "genre": "Trance",
+    "genres_top3": [
+      [
+        "Trance",
+        0.575
+      ],
+      [
+        "Tech Trance",
+        0.464
+      ],
+      [
+        "Psy-Trance",
+        0.338
+      ]
+    ],
+    "duration": 350.6
+  },
+  "Adriatique & Marino Canal - Home ft. Delhia De France (Mind Against Remix).mp3": {
+    "bpm_raw": 118.47,
+    "bpm": 118.5,
+    "bpm_conf": 1.54,
+    "key": "D minor",
+    "camelot": "7A",
+    "key_strength": 0.92,
+    "lufs": -8.5,
+    "energy": 0.4022,
+    "genre": "Progressive House",
+    "genres_top3": [
+      [
+        "Progressive House",
+        0.227
+      ],
+      [
+        "Deep House",
+        0.205
+      ],
+      [
+        "Deep Techno",
+        0.189
+      ]
+    ],
+    "duration": 437.6
+  },
+  "Age Of Love - The Age Of Love (Charlotte de Witte & Enrico Sangiuliano Remix).mp3": {
+    "bpm_raw": 134.95,
+    "bpm": 134.9,
+    "bpm_conf": 1.86,
+    "key": "F# minor",
+    "camelot": "11A",
+    "key_strength": 0.9,
+    "lufs": -12.3,
+    "energy": 0.2545,
+    "genre": "Tech Trance",
+    "genres_top3": [
+      [
+        "Tech Trance",
+        0.538
+      ],
+      [
+        "Trance",
+        0.372
+      ],
+      [
+        "Psy-Trance",
+        0.343
+      ]
+    ],
+    "duration": 382.8
+  },
+  "Amelie Lens - Falling For You.mp3": {
+    "bpm_raw": 139.92,
+    "bpm": 139.9,
+    "bpm_conf": 1.96,
+    "key": "E minor",
+    "camelot": "9A",
+    "key_strength": 0.92,
+    "lufs": -7.3,
+    "energy": 0.434,
+    "genre": "Trance",
+    "genres_top3": [
+      [
+        "Trance",
+        0.461
+      ],
+      [
+        "Tech Trance",
+        0.274
+      ],
+      [
+        "Techno",
+        0.17
+      ]
+    ],
+    "duration": 235.1
+  },
+  "Anyma & Aaron Hibell - Running Up That Hill (AYDEN LOYDE Mashup).mp3": {
+    "bpm_raw": 126.67,
+    "bpm": 126.7,
+    "bpm_conf": 0.7,
+    "key": "B minor",
+    "camelot": "10A",
+    "key_strength": 0.95,
+    "lufs": -10.0,
+    "energy": 0.2822,
+    "genre": "Trance",
+    "genres_top3": [
+      [
+        "Trance",
+        0.218
+      ],
+      [
+        "Tech Trance",
+        0.161
+      ],
+      [
+        "Techno",
+        0.157
+      ]
+    ],
+    "duration": 349.9
+  },
+  "Anyma - Pictures Of You [Visualizer].mp3": {
+    "bpm_raw": 128.44,
+    "bpm": 128.4,
+    "bpm_conf": 1.03,
+    "key": "E minor",
+    "camelot": "9A",
+    "key_strength": 0.82,
+    "lufs": -8.2,
+    "energy": 0.3814,
+    "genre": "House",
+    "genres_top3": [
+      [
+        "House",
+        0.187
+      ],
+      [
+        "Progressive House",
+        0.146
+      ],
+      [
+        "Trance",
+        0.133
+      ]
+    ],
+    "duration": 175.4
+  },
+  "Anyma, Argy, Son Of Son - Voices in My Head (Amelie Lens Remix).mp3": {
+    "bpm_raw": 142.31,
+    "bpm": 142.3,
+    "bpm_conf": 2.03,
+    "key": "D minor",
+    "camelot": "7A",
+    "key_strength": 0.91,
+    "lufs": -7.5,
+    "energy": 0.4155,
+    "genre": "Trance",
+    "genres_top3": [
+      [
+        "Trance",
+        0.466
+      ],
+      [
+        "Tech Trance",
+        0.297
+      ],
+      [
+        "Hard Trance",
+        0.271
+      ]
+    ],
+    "duration": 192.1
+  },
+  "Armin van Buuren & Ben Hemsley feat. Lucy Pullin - Is It Beautiful (ASOT 2025 TRANSFORMATION Anthem.mp3": {
+    "bpm_raw": 137.93,
+    "bpm": 137.9,
+    "bpm_conf": 0.87,
+    "key": "F minor",
+    "camelot": "4A",
+    "key_strength": 0.87,
+    "lufs": -8.7,
+    "energy": 0.3182,
+    "genre": "Tech Trance",
+    "genres_top3": [
+      [
+        "Tech Trance",
+        0.639
+      ],
+      [
+        "Trance",
+        0.637
+      ],
+      [
+        "Progressive Trance",
+        0.103
+      ]
+    ],
+    "duration": 214.9
+  },
+  "BYØRN - Adagio For Strings (VIP Remix).mp3": {
+    "bpm_raw": 150.29,
+    "bpm": 150.3,
+    "bpm_conf": 1.27,
+    "key": "F minor",
+    "camelot": "4A",
+    "key_strength": 0.74,
+    "lufs": -8.4,
+    "energy": 0.3963,
+    "genre": "Hardstyle",
+    "genres_top3": [
+      [
+        "Hardstyle",
+        0.283
+      ],
+      [
+        "Hard Techno",
+        0.263
+      ],
+      [
+        "Schranz",
+        0.22
+      ]
+    ],
+    "duration": 190.4
+  },
+  "Charlotte de Witte & Amelie Lens - One Mind (Original Mix).mp3": {
+    "bpm_raw": 139.93,
+    "bpm": 139.9,
+    "bpm_conf": 2.09,
+    "key": "E minor",
+    "camelot": "9A",
+    "key_strength": 0.76,
+    "lufs": -7.6,
+    "energy": 0.4415,
+    "genre": "Techno",
+    "genres_top3": [
+      [
+        "Techno",
+        0.457
+      ],
+      [
+        "Tech Trance",
+        0.456
+      ],
+      [
+        "Trance",
+        0.232
+      ]
+    ],
+    "duration": 345.7
+  },
+  "Charlotte de Witte - Overdrive (Edit) [KNTXT021].mp3": {
+    "bpm_raw": 137.95,
+    "bpm": 138.0,
+    "bpm_conf": 1.34,
+    "key": "F minor",
+    "camelot": "4A",
+    "key_strength": 0.87,
+    "lufs": -8.8,
+    "energy": 0.4079,
+    "genre": "Techno",
+    "genres_top3": [
+      [
+        "Techno",
+        0.514
+      ],
+      [
+        "Tech Trance",
+        0.318
+      ],
+      [
+        "Trance",
+        0.256
+      ]
+    ],
+    "duration": 254.4
+  },
+  "DJ Gigola - La Batteria (Official Video).mp3": {
+    "bpm_raw": 150.09,
+    "bpm": 150.1,
+    "bpm_conf": 1.41,
+    "key": "F minor",
+    "camelot": "4A",
+    "key_strength": 0.87,
+    "lufs": -8.9,
+    "energy": 0.3755,
+    "genre": "Hard Trance",
+    "genres_top3": [
+      [
+        "Hard Trance",
+        0.254
+      ],
+      [
+        "Hands Up",
+        0.233
+      ],
+      [
+        "Jumpstyle",
+        0.171
+      ]
+    ],
+    "duration": 164.0
+  },
+  "Darude - Sandstorm (Thom Ares Remix).mp3": {
+    "bpm_raw": 129.89,
+    "bpm": 129.9,
+    "bpm_conf": 2.64,
+    "key": "E minor",
+    "camelot": "9A",
+    "key_strength": 0.97,
+    "lufs": -6.0,
+    "energy": 0.42,
+    "genre": "Electro House",
+    "genres_top3": [
+      [
+        "Electro House",
+        0.335
+      ],
+      [
+        "House",
+        0.186
+      ],
+      [
+        "Progressive House",
+        0.155
+      ]
+    ],
+    "duration": 167.1
+  },
+  "Dimitri Vegas & Like Mike & Tiësto & Dido & W&W - Thank You (Not So Bad) (Official video).mp3": {
+    "bpm_raw": 150.17,
+    "bpm": 150.2,
+    "bpm_conf": 1.19,
+    "key": "Ab minor",
+    "camelot": "1A",
+    "key_strength": 0.89,
+    "lufs": -8.5,
+    "energy": 0.4014,
+    "genre": "Hands Up",
+    "genres_top3": [
+      [
+        "Hands Up",
+        0.274
+      ],
+      [
+        "Hard Trance",
+        0.25
+      ],
+      [
+        "Hardstyle",
+        0.199
+      ]
+    ],
+    "duration": 139.8
+  },
+  "Dimitri Vegas, Sylver & Pat B - Turn The Tide (ft. Sylver).mp3": {
+    "bpm_raw": 153.6,
+    "bpm": 153.6,
+    "bpm_conf": 1.08,
+    "key": "F# major",
+    "camelot": "2B",
+    "key_strength": 0.77,
+    "lufs": -6.2,
+    "energy": 0.4478,
+    "genre": "Hardstyle",
+    "genres_top3": [
+      [
+        "Hardstyle",
+        0.264
+      ],
+      [
+        "Jumpstyle",
+        0.187
+      ],
+      [
+        "Hardcore",
+        0.173
+      ]
+    ],
+    "duration": 149.0
+  },
+  "Disclosure - You & Me (Rivo Remix) ft. Eliza Doolittle.mp3": {
+    "bpm_raw": 122.21,
+    "bpm": 122.2,
+    "bpm_conf": 0.36,
+    "key": "Bb minor",
+    "camelot": "3A",
+    "key_strength": 0.85,
+    "lufs": -9.5,
+    "energy": 0.3388,
+    "genre": "Tropical House",
+    "genres_top3": [
+      [
+        "Tropical House",
+        0.292
+      ],
+      [
+        "Progressive House",
+        0.209
+      ],
+      [
+        "Deep House",
+        0.206
+      ]
+    ],
+    "duration": 208.6
+  },
+  "Dj Tiesto - Traffic!.mp3": {
+    "bpm_raw": 137.12,
+    "bpm": 137.1,
+    "bpm_conf": 2.1,
+    "key": "Bb minor",
+    "camelot": "3A",
+    "key_strength": 0.83,
+    "lufs": -13.5,
+    "energy": 0.215,
+    "genre": "Trance",
+    "genres_top3": [
+      [
+        "Trance",
+        0.355
+      ],
+      [
+        "Tech Trance",
+        0.333
+      ],
+      [
+        "Techno",
+        0.306
+      ]
+    ],
+    "duration": 416.4
+  },
+  "Dyzen - She likes (Official Visualizer).mp3": {
+    "bpm_raw": 120.0,
+    "bpm": 120.0,
+    "bpm_conf": 3.4,
+    "key": "C# minor",
+    "camelot": "12A",
+    "key_strength": 0.88,
+    "lufs": -10.8,
+    "energy": 0.3033,
+    "genre": "Deep Techno",
+    "genres_top3": [
+      [
+        "Deep Techno",
+        0.331
+      ],
+      [
+        "Progressive House",
+        0.246
+      ],
+      [
+        "Deep House",
+        0.229
+      ]
+    ],
+    "duration": 404.1
+  },
+  "Dyzen - Try (Official Visualizer).mp3": {
+    "bpm_raw": 125.98,
+    "bpm": 126.0,
+    "bpm_conf": 2.33,
+    "key": "A minor",
+    "camelot": "8A",
+    "key_strength": 0.79,
+    "lufs": -9.4,
+    "energy": 0.3883,
+    "genre": "Progressive House",
+    "genres_top3": [
+      [
+        "Progressive House",
+        0.279
+      ],
+      [
+        "Deep Techno",
+        0.184
+      ],
+      [
+        "Techno",
+        0.169
+      ]
+    ],
+    "duration": 329.6
+  },
+  "Elderbrook & Adriatique - Lost In The Woods Official Visualiser.mp3": {
+    "bpm_raw": 122.41,
+    "bpm": 122.4,
+    "bpm_conf": 1.53,
+    "key": "Bb major",
+    "camelot": "6B",
+    "key_strength": 0.9,
+    "lufs": -8.8,
+    "energy": 0.3322,
+    "genre": "Progressive House",
+    "genres_top3": [
+      [
+        "Progressive House",
+        0.186
+      ],
+      [
+        "House",
+        0.176
+      ],
+      [
+        "Progressive Trance",
+        0.15
+      ]
+    ],
+    "duration": 183.2
+  },
+  "Elderbrook & Rules - 'Staring at the Sun' (Official Music Video).mp3": {
+    "bpm_raw": 123.01,
+    "bpm": 123.0,
+    "bpm_conf": 0.91,
+    "key": "Eb major",
+    "camelot": "5B",
+    "key_strength": 0.83,
+    "lufs": -11.9,
+    "energy": 0.2979,
+    "genre": "Progressive House",
+    "genres_top3": [
+      [
+        "Progressive House",
+        0.277
+      ],
+      [
+        "Deep House",
+        0.178
+      ],
+      [
+        "House",
+        0.172
+      ]
+    ],
+    "duration": 205.5
+  },
+  "Elderbrook - Numb (Official Video).mp3": {
+    "bpm_raw": 119.9,
+    "bpm": 119.9,
+    "bpm_conf": 1.49,
+    "key": "C minor",
+    "camelot": "5A",
+    "key_strength": 0.9,
+    "lufs": -9.1,
+    "energy": 0.3534,
+    "genre": "Deep House",
+    "genres_top3": [
+      [
+        "Deep House",
+        0.46
+      ],
+      [
+        "Tropical House",
+        0.28
+      ],
+      [
+        "House",
+        0.275
+      ]
+    ],
+    "duration": 231.1
+  },
+  "Elderbrook - Shallow Water (Official Video).mp3": {
+    "bpm_raw": 118.08,
+    "bpm": 118.1,
+    "bpm_conf": 1.82,
+    "key": "F major",
+    "camelot": "7B",
+    "key_strength": 0.89,
+    "lufs": -9.1,
+    "energy": 0.3368,
+    "genre": "Deep House",
+    "genres_top3": [
+      [
+        "Deep House",
+        0.373
+      ],
+      [
+        "Tropical House",
+        0.363
+      ],
+      [
+        "House",
+        0.271
+      ]
+    ],
+    "duration": 202.8
+  },
+  "KREAM & Korolova - Annihilation (Extended Mix) MELODIC TECHNO.mp3": {
+    "bpm_raw": 129.73,
+    "bpm": 129.7,
+    "bpm_conf": 2.32,
+    "key": "D minor",
+    "camelot": "7A",
+    "key_strength": 0.98,
+    "lufs": -7.5,
+    "energy": 0.4363,
+    "genre": "Progressive Trance",
+    "genres_top3": [
+      [
+        "Progressive Trance",
+        0.359
+      ],
+      [
+        "Tech Trance",
+        0.327
+      ],
+      [
+        "Trance",
+        0.322
+      ]
+    ],
+    "duration": 290.6
+  },
+  "KREAM - Arrival.mp3": {
+    "bpm_raw": 125.99,
+    "bpm": 126.0,
+    "bpm_conf": 2.71,
+    "key": "C# minor",
+    "camelot": "12A",
+    "key_strength": 0.93,
+    "lufs": -7.4,
+    "energy": 0.4481,
+    "genre": "Tech Trance",
+    "genres_top3": [
+      [
+        "Tech Trance",
+        0.221
+      ],
+      [
+        "Progressive House",
+        0.206
+      ],
+      [
+        "Electro House",
+        0.174
+      ]
+    ],
+    "duration": 204.4
+  },
+  "Mind Against, Jos & Eli - Overture (Official Visualiser).mp3": {
+    "bpm_raw": 123.97,
+    "bpm": 124.0,
+    "bpm_conf": 2.41,
+    "key": "Bb minor",
+    "camelot": "3A",
+    "key_strength": 0.87,
+    "lufs": -9.4,
+    "energy": 0.3716,
+    "genre": "Progressive House",
+    "genres_top3": [
+      [
+        "Progressive House",
+        0.309
+      ],
+      [
+        "Electro House",
+        0.242
+      ],
+      [
+        "Tropical House",
+        0.238
+      ]
+    ],
+    "duration": 321.4
+  },
+  "RÜFÜS DU SOL ●● Innerbloom (Official Video).mp3": {
+    "bpm_raw": 122.17,
+    "bpm": 122.2,
+    "bpm_conf": 1.42,
+    "key": "Bb major",
+    "camelot": "6B",
+    "key_strength": 0.84,
+    "lufs": -10.6,
+    "energy": 0.2911,
+    "genre": "Deep House",
+    "genres_top3": [
+      [
+        "Deep House",
+        0.273
+      ],
+      [
+        "House",
+        0.205
+      ],
+      [
+        "Tropical House",
+        0.152
+      ]
+    ],
+    "duration": 578.1
+  },
+  "Shimza x AR CO x Kasango - Fire Fire (Visualizer) [Helix Records].mp3": {
+    "bpm_raw": 124.82,
+    "bpm": 124.8,
+    "bpm_conf": 1.43,
+    "key": "G minor",
+    "camelot": "6A",
+    "key_strength": 0.97,
+    "lufs": -9.9,
+    "energy": 0.3039,
+    "genre": "Progressive House",
+    "genres_top3": [
+      [
+        "Progressive House",
+        0.417
+      ],
+      [
+        "House",
+        0.305
+      ],
+      [
+        "Tropical House",
+        0.27
+      ]
+    ],
+    "duration": 150.5
+  },
+  "The Future Is Unknown.mp3": {
+    "bpm_raw": 124.91,
+    "bpm": 124.9,
+    "bpm_conf": 2.54,
+    "key": "Ab major",
+    "camelot": "4B",
+    "key_strength": 0.94,
+    "lufs": -8.6,
+    "energy": 0.439,
+    "genre": "Techno",
+    "genres_top3": [
+      [
+        "Techno",
+        0.284
+      ],
+      [
+        "Progressive House",
+        0.225
+      ],
+      [
+        "Tech House",
+        0.154
+      ]
+    ],
+    "duration": 263.5
+  },
+  "Tiesto Adagio For Strings KRX5 Remix Trance 2026 I love this (super trance).mp3": {
+    "bpm_raw": 133.94,
+    "bpm": 133.9,
+    "bpm_conf": 1.82,
+    "key": "D minor",
+    "camelot": "7A",
+    "key_strength": 0.76,
+    "lufs": -6.6,
+    "energy": 0.436,
+    "genre": "Tech Trance",
+    "genres_top3": [
+      [
+        "Tech Trance",
+        0.769
+      ],
+      [
+        "Trance",
+        0.657
+      ],
+      [
+        "Progressive Trance",
+        0.111
+      ]
+    ],
+    "duration": 213.8
+  },
+  "Tiësto & Sneaky Sound System - I Will Be Here (Wolfgang Gartner Radio Edit).mp3": {
+    "bpm_raw": 127.91,
+    "bpm": 127.9,
+    "bpm_conf": 0.52,
+    "key": "E major",
+    "camelot": "12B",
+    "key_strength": 0.82,
+    "lufs": -7.4,
+    "energy": 0.3711,
+    "genre": "House",
+    "genres_top3": [
+      [
+        "House",
+        0.479
+      ],
+      [
+        "Progressive House",
+        0.282
+      ],
+      [
+        "Electro House",
+        0.239
+      ]
+    ],
+    "duration": 238.1
+  },
+  "Tiësto - In My Memory (DJ Vegas Remix).mp3": {
+    "bpm_raw": 132.05,
+    "bpm": 132.0,
+    "bpm_conf": 1.27,
+    "key": "C minor",
+    "camelot": "5A",
+    "key_strength": 0.89,
+    "lufs": -13.7,
+    "energy": 0.1725,
+    "genre": "Trance",
+    "genres_top3": [
+      [
+        "Trance",
+        0.203
+      ],
+      [
+        "House",
+        0.194
+      ],
+      [
+        "Tech Trance",
+        0.182
+      ]
+    ],
+    "duration": 256.3
+  },
+  "Tiësto - In My Memory (Sadrican 2026 Remix) Progressive Rework.mp3": {
+    "bpm_raw": 128.1,
+    "bpm": 128.1,
+    "bpm_conf": 1.68,
+    "key": "A minor",
+    "camelot": "8A",
+    "key_strength": 0.83,
+    "lufs": -8.2,
+    "energy": 0.3728,
+    "genre": "Progressive House",
+    "genres_top3": [
+      [
+        "Progressive House",
+        0.352
+      ],
+      [
+        "House",
+        0.276
+      ],
+      [
+        "Electro House",
+        0.159
+      ]
+    ],
+    "duration": 240.2
+  }
+}
