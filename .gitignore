@@ -1,0 +1,21 @@
+lists/*/mp3/
+models/
+.venv/
+.idea/
+.ruff_cache/
+__pycache__/
+public/mp3/
+tools/
+.cache/
+lists/*/mix/
+
+# audio never goes into git
+*.mp3
+*.zip
+
+# track data stays local + on the server (scp), never in git
+public/data/
+lists/*/analysis.json
+lists/*/analysis.csv
+lists/*/order.csv
+lists/*/renames.json

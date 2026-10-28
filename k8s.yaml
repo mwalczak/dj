@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dj
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: dj }
+  template:
+    metadata:
+      labels: { app: dj }
+    spec:
+      containers:
+        - name: dj
+          image: IMAGE_PLACEHOLDER
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+          resources:
+            requests: { cpu: 10m, memory: 16Mi }
+            limits: { memory: 64Mi }
+          volumeMounts:
+            - name: mp3
+              mountPath: /usr/share/nginx/html/mp3
+              readOnly: true
+            - name: data
+              mountPath: /usr/share/nginx/html/data
+              readOnly: true
+      volumes:
+        # One subfolder per list: /srv/dj/mp3/<id>/ (mp3s, dj-set.zip, dj-mix.mp3)
+        - name: mp3
+          hostPath:
+            path: /srv/dj/mp3
+            type: DirectoryOrCreate
+        # Page database (lists.json + <id>.json), copied by scp - not kept in git
+        - name: data
+          hostPath:
+            path: /srv/dj/data
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dj
+spec:
+  selector: { app: dj }
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dj
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts: [dj.walczaki.com]
+      secretName: dj-tls
+  rules:
+    - host: dj.walczaki.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dj
+                port:
+                  number: 80
